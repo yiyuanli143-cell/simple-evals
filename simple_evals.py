@@ -1,3 +1,10 @@
+"""
+在根目录simple-evals上一级目录运行
+python -m simple-evals.simple_evals --eval healthbench_hard --model o1 --examples 10
+下载healthbench的三个数据集到根目录下的文件夹healthbench-data中
+env中配置OPENAI_API_KEY和OPENAI_API_URL
+"""
+
 import argparse
 import json
 import subprocess
@@ -339,8 +346,10 @@ def main():
         for eval_name in evals_list:
             try:
                 evals[eval_name] = get_evals(eval_name, args.debug)
-            except Exception:
-                print(f"Error: eval '{eval_name}' not found.")
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+                print(f"Error while constructing eval '{eval_name}': {e}")
                 return
     else:
         evals = {

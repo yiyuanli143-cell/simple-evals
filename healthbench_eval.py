@@ -2,9 +2,9 @@
 This script evaluates the performance of a model on the HealthBench dataset.
 
 To run HealthBench, HealthBench Consensus, or HealthBench Hard, use the simple-evals script:
-- `python -m simple-evals.simple_evals --eval=healthbench --model=gpt-4.1`
-- `python -m simple-evals.simple_evals --eval=healthbench_consensus --model=gpt-4.1`
-- `python -m simple-evals.simple_evals --eval=healthbench_hard --model=gpt-4.1`
+- `python -m simple-evals.simple-evals --eval=healthbench --model=gpt-4.1`
+- `python -m simple-evals.simple-evals --eval=healthbench_consensus --model=gpt-4.1`
+- `python -m simple-evals.simple-evals --eval=healthbench_hard --model=gpt-4.1`
 
 You can also evaluate physician ideal completions or reference completions against the HealthBench rubrics. To do so, run the following command:
 - To evaluate physician ideal completions: `python -m simple-evals.healthbench_eval --run_mode=physician_completions`
@@ -31,11 +31,15 @@ from .sampler.chat_completion_sampler import (
     OPENAI_SYSTEM_MESSAGE_API,
     ChatCompletionSampler,
 )
-from .types import Eval, EvalResult, MessageList, SamplerBase, SingleEvalResult
+from .simple_types import Eval, EvalResult, MessageList, SamplerBase, SingleEvalResult
 
-INPUT_PATH = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/2025-05-07-06-14-12_oss_eval.jsonl"
-INPUT_PATH_HARD = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/hard_2025-05-08-21-00-10.jsonl"
-INPUT_PATH_CONSENSUS = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/consensus_2025-05-09-20-00-46.jsonl"
+#INPUT_PATH = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/2025-05-07-06-14-12_oss_eval.jsonl"
+#INPUT_PATH_HARD = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/hard_2025-05-08-21-00-10.jsonl"
+#INPUT_PATH_CONSENSUS = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/consensus_2025-05-09-20-00-46.jsonl"
+
+INPUT_PATH = "simple-evals/healthbench-data/2025-05-07-06-14-12_oss_eval.jsonl"
+INPUT_PATH_HARD = "simple-evals/healthbench-data/hard_2025-05-08-21-00-10.jsonl"
+INPUT_PATH_CONSENSUS = "simple-evals/healthbench-data/consensus_2025-05-09-20-00-46.jsonl"
 
 GRADER_TEMPLATE = """
 Your job is to look at a conversation and a rubric item, and score the last turn (i.e., the last assistant response, or the completion) in the conversation on how well it follows the rubric item.

@@ -3,7 +3,7 @@ This script evaluates a grader model on grading HealthBench rubrics. It effectiv
 evaluates the evaluator against physician opinion, so we call it a meta-evaluation.
 
 To run, use the following command (working directory should contain simple-evals folder):
-`python -m simple-evals.simple_evals  --eval=healthbench_meta --model=gpt-4.1`
+`python -m simple-evals.simple-evals  --eval=healthbench_meta --model=gpt-4.1`
 """
 
 import json
@@ -15,7 +15,7 @@ import blobfile as bf
 
 from . import common
 from .healthbench_eval import GRADER_TEMPLATE, parse_json_to_dict
-from .types import Eval, EvalResult, SamplerBase, SingleEvalResult
+from .simple_types import Eval, EvalResult, SamplerBase, SingleEvalResult
 
 INPUT_PATH = "https://openaipublic.blob.core.windows.net/simple-evals/healthbench/2025-05-07-06-14-12_oss_meta_eval.jsonl"
 INDEX_STR_TEMPLATE = "pairwise_{model_or_physician}_{metric}_{pred_str}"

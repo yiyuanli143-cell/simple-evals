@@ -4,7 +4,11 @@ from typing import Any
 import openai
 from openai import OpenAI
 
-from ..types import MessageList, SamplerBase, SamplerResponse
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from ..simple_types import MessageList, SamplerBase, SamplerResponse
 
 OPENAI_SYSTEM_MESSAGE_API = "You are a helpful assistant."
 OPENAI_SYSTEM_MESSAGE_CHATGPT = (
@@ -24,10 +28,31 @@ class ChatCompletionSampler(SamplerBase):
         system_message: str | None = None,
         temperature: float = 0.5,
         max_tokens: int = 1024,
+        api_key: str = "OPENAI_API_KEY",
+        base_url: str = "OPENAI_API_URL",
     ):
-        self.api_key_name = "OPENAI_API_KEY"
-        self.client = OpenAI()
-        # using api_key=os.environ.get("OPENAI_API_KEY")  # please set your API_KEY
+        # self.api_key_name = "OPENAI_API_KEY"
+        # self.client = OpenAI()
+        # using api_key=os.environ.get("DASHSCOPE_API_KEY")  # please set your API_KEY
+
+        api_key = (
+                os.getenv(api_key)
+        )
+        base_url = (
+                os.getenv(base_url)
+        )
+
+        if not api_key:
+            raise RuntimeError(
+                f"Missing API key. Please set {api_key} in your environment/.env"
+            )
+
+        # 创建 OpenAI client：如果你用的是 OpenAI-compatible 网关，一定要传 base_url
+        if base_url:
+            self.client = OpenAI(api_key=api_key, base_url=base_url)
+        else:
+            self.client = OpenAI(api_key=api_key)
+
         self.model = model
         self.system_message = system_message
         self.temperature = temperature
